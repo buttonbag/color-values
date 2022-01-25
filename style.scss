@@ -1,0 +1,108 @@
+$primary-color: #0057b7;
+$secondary-color: #0e4174;
+$accent-color: #af272f;
+$white: #ffffff;
+$gray: #565656;
+
+$colors: (
+	'primary': $primary-color,
+	'secondary': $secondary-color,
+	'accent': $accent-color,
+	'white': $white,
+	'gray': $gray,
+);
+$tints: 100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15,
+	10;
+
+@mixin text($color) {
+	color: rgba($color, 1);
+}
+@mixin bg($color) {
+	background: rgba($color, 1);
+}
+@mixin border($size, $color) {
+	border: $size solid rgba($color, 1);
+}
+@mixin color($color, $amount) {
+	$color: scale-color($color, $lightness: 100%-$amount);
+	background-color: $color;
+}
+@mixin transparent($color, $amount) {
+	$color: rgba($color, $amount);
+	background: $color;
+}
+
+@each $key, $color in $colors {
+	.dpu-bg {
+		&-#{$key} {
+			@include bg($color);
+			@each $tint in $tints {
+				&-#{$tint} {
+					@include color($color, $tint);
+					&::after {
+						content: '#{scale-color($color, $lightness: 100%-$tint)}';
+						@if ($tint > 50) {
+							color: $white;
+						} @else {
+							color: black;
+						}
+					}
+					&-t {
+						@include transparent($color, calc($tint/100));
+						&::after {
+							content: '#{rgba($color, calc($tint/100))}';
+							@if ($tint > 50) {
+								color: $white;
+							} @else {
+								color: black;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.dpu-text {
+		&-#{$key} {
+			color: rgba($color, 1);
+		}
+	}
+
+	.dpu-border {
+		&-#{$key} {
+			@include border(1px, $color);
+		}
+	}
+}
+
+.bc-tints {
+	display: flex;
+	.tint {
+		flex: 1 1 auto;
+		margin: 1px;
+		display: flex;
+		justify-content: space-between;
+		flex-flow: column;
+		height: 150px;
+
+		.tint-label {
+			display: flex;
+			justify-content: flex-end;
+			color: $gray;
+			font-size: 0.75rem;
+		}
+		.bc-primary-tint {
+			height: 5rem;
+			margin: 1px 0;
+		}
+		.bc-accent-tint {
+			height: 3rem;
+			margin: 1px 0;
+		}
+		.bc-secondary-tint {
+			height: 4rem;
+			margin: 1px 0;
+		}
+	}
+}
