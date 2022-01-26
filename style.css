@@ -1392,7 +1392,7 @@
   display: flex;
 }
 .bc-tints .tint {
-  flex: 1 1 auto;
+  flex: 1 1 0;
   margin: 1px;
   display: flex;
   justify-content: space-between;
