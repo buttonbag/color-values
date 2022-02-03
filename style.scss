@@ -48,9 +48,9 @@ $tints: 100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15,
 						}
 					}
 					&-t {
-						@include transparent($color, calc($tint/100));
+						@include transparent(scale-color($color, $lightness: 100%-$tint), calc($tint/100));
 						&::after {
-							content: '#{rgba($color, calc($tint/100))}';
+							content: '#{scale-color($color, $lightness: 100%-$tint), calc($tint/100)}';
 							@if ($tint > 50) {
 								color: $white;
 							} @else {
